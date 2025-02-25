@@ -16,5 +16,7 @@ __pycache__/
 pdfs/
 chroma_db/
 chroma_db_story_pdf/
+vector_storage/
 ice_make/
+trainable_data/*
 
