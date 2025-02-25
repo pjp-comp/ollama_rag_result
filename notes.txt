@@ -1,0 +1,51 @@
+
+Step 1: Prerequisites
+    Langchain: Framework for building applications powered by large language models (LLMs), enabling easy retrieval, reasoning, and tool integration.
+    Chromadb: A high-performance vector database designed for efficient similarity searches and storage of embeddings.
+    https://pypi.org/project/chromadb/
+    Gradio: To create a user-friendly web interface.
+
+Step 2: Processing the uploaded PDF / url / sheets
+
+Step 3: Combining retrieved document chunks 
+    - merges multiple retrieved document chunks into a single string
+
+Step 4: Querying DeepSeek-R1 using Ollama
+
+Step 5: The RAG pipeline
+    - returning the most relevant document excerpts. These excerpts are formatted into a structured input using combine_docs function and sent to ollama_llm, ensuring that DeepSeek-R1 generates well-informed answers based on the retrieved content.
+
+Step 6: Creating the Gradio Interface
+
+Next step: Fine-Tuning :LORA(Low-Rank Adaptation) / QLoRA (Quantized LORA)
+    - Layer-wise Fine Tuning
+    - Parameter Selective Fine-tuning
+    - Adapter-based Fine-tuning
+    
+        Workflow:
+            Step 1: Prepare data
+            Step 2: Fine-tune the model
+            Step 3: Save & package it into an Ollama modelfile
+            Step 4: Run the model inside Ollama
+
+Need to read:
+- https://www.datacamp.com/tutorial/fine-tuning-deepseek-r1-reasoning-model
+- https://www.datacamp.com/tutorial/deepseek-r1-ollama
+- https://medium.com/@kailash.thiyagarajan/fine-tuning-large-language-models-with-lora-demystifying-efficient-adaptation-25fa0a389075
+
+
+Steps Done :
+
+1.Local storage done using chromadb
+2.used local storage as context in model.
+3.used RAG pipeline
+
+
+
+🔹 Best Chunking Strategy for Your Case
+Content Type	                                    Recommended chunk_size	    Recommended chunk_overlap
+Normal text (paragraphs, articles)	                500	                        100
+Technical documents (code, JSON, structured data)	600-800	                    150-200
+Short FAQ-style content	                            300-400	                    100
+Legal/Medical docs (longer, structured)	            1000	                    200-300
+Since your documents contain JSON, code, tables, and text, a balanced setting would be:

@@ -1,0 +1,9 @@
+{
+    "project_folder": "ollama_ai",
+    "model_folder": "models",
+    "model_name": "deepseek-r1",
+    "model_path": "/Users/pragneshpatel/.ollama/models/manifests/registry.ollama.ai/library/deepseek-r1",
+    "trained_model_folder": "trained_models",
+    "training_data_path": "import/training_data.json"
+  }
+  

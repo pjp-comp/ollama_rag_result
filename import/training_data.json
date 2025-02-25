@@ -1,0 +1,25 @@
+{
+    "data": [
+      {
+        "input": "What is the capital of France?",
+        "output": "The capital of France is Paris."
+      },
+      {
+        "input": "Who wrote 'To Kill a Mockingbird'?",
+        "output": "The author of 'To Kill a Mockingbird' is Harper Lee."
+      },
+      {
+        "input": "What is the square root of 64?",
+        "output": "The square root of 64 is 8."
+      },
+      {
+        "input": "Explain the process of photosynthesis.",
+        "output": "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods with the help of chlorophyll."
+      },
+      {
+        "input": "What is the theory of relativity?",
+        "output": "The theory of relativity, proposed by Albert Einstein, describes the relationship between space and time, and how they are affected by gravity."
+      }
+    ]
+  }
+  

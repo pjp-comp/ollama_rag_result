@@ -1,0 +1,20 @@
+# Ignore virtual environment
+venv/
+.env/
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.idea/
+*.iml
+*.log
+*.bak
+*.swp
+*.swo
+*.swn
+
+pdfs/
+chroma_db/
+chroma_db_story_pdf/
+ice_make/
+
