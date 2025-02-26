@@ -1,0 +1,178 @@
+Our presentation JSON object seem like this
+
+presentation_json_obj = {
+    "ppt_name": "Sample Presentation",
+    "ppt_file": 1253,
+
+    "slides": [
+        [
+            {
+                "type": "title",
+                "class": "draggable",
+                "ele_addr": "title-0-0",
+                "html": "<p><strong style=\"color: rgb(230, 0, 0); background-color: rgb(0, 0, 0); font-size: 84px;\">Welcome to startup<\/strong><\/p>",
+                "position": {
+                    "top": "11.756860298246709px",
+                    "left": "24.351806326823485px"
+                },
+                "style": {
+                    "width": "930.890669846197px",
+                    "height": "150.81252047326387px"
+                },
+                "indentLevel": 0
+            },
+            {
+                "type": "heading",
+                "class": "draggable",
+                "ele_addr": "heading-0-1",
+                "html": "<p><strong style=\"color: rgb(0, 0, 0); font-size: 20px;\">You will come to knew in the next slide<\/strong><\/p>",
+                "position": {
+                    "top": "192.44824358894365px",
+                    "left": "34.5808448243589px"
+                },
+                "style": {
+                    "width": "400.00004874586637px",
+                    "height": "46.71093969356399px"
+                },
+                "indentLevel": 0
+            },
+            {
+                "type": "square",
+                "class": "field_shape",
+                "ele_addr": "square-0-2",
+                "html": "",
+                "position": {
+                    "top": "155.879px",
+                    "left": "40.3559px"
+                },
+                "style": {
+                    "width": "549.73828125px",
+                    "height": "0px"
+                },
+                "defaultShapeProp": [],
+                "shapeStyle": {
+                    "fill": "rgb(132, 49, 49)",
+                    "fill-opacity": 1,
+                    "stroke": "rgb(51, 51, 51)",
+                    "stroke-opacity": 1,
+                    "stroke-width": "0.4em",
+                    "stroke-dasharray": "0em"
+                },
+                "shapeProp": {
+                    "height": 14.974730142883883,
+                    "width": 548.8121607287702,
+                    "x": 0,
+                    "y": 0,
+                    "fill": "rgb(118,192,246)",
+                    "fill-opacity": 1,
+                    "stop_1": "#FF00FF",
+                    "stop_2": "#00FF33",
+                    "isGradient": 0
+                },
+                "indentLevel": 0
+            },
+            {
+                "type": "image",
+                "class": "draggable",
+                "ele_addr": "image-0-3",
+                "html": "<img src=\"http:\/\/68.183.134.144\/impactfulpitchdemo\/images\/2024\/icons\/advice.png\" style=\"width: 100%; height: 100%; text-align: center; object-fit: cover;\">",
+                "position": {
+                    "top": "274.99993760529105px",
+                    "left": "44.99996256317464px"
+                },
+                "style": {
+                    "width": "128.75148187433706px",
+                    "height": "139.272976851563px"
+                },
+                "indentLevel": 0
+            },
+            {
+                "type": "text",
+                "class": "draggable",
+                "ele_addr": "text-0-4",
+                "html": "<p><span style=\"font-size: 20px; line-height: 2;  color: var(--BodyColor);\">Sure! Please provide the content you'd like me to rewrite.<\/span><\/p>",
+                "position": {
+                    "top": "280.62540203478835px",
+                    "left": "476.7495897604201px"
+                },
+                "style": {
+                    "width": "674.7656506399738px",
+                    "height": "413.57034070397117px"
+                },
+                "indentLevel": "0",
+            },
+        ]
+    ],
+    "isDark": "false",
+    "templateUsed": 64,
+    "submission_id": "429"
+}
+
+
+This object contains the following keys:
+- ppt_name: Name of the presentation
+- ppt_file: ID of the presentation file
+- slides: Array of slides. Each slide is an array of elements. Each element is a JSON object with the following
+    - type: Type of the element (title, heading,text, image, square, etc.) we can not change its value
+    - class: Class of the element (draggable, field_shape class will be there plus additional you can add.)
+    - ele_addr: Address of the element to identify its position in the slide
+        ex : text-0-4 means text type of object, 0th slide, 4th element
+             image-0-3 means image type of object, 0th slide, 3rd element
+    - html: this will be the content of the element ploated directly on the slide
+    - position: Position of the element (top, left)
+        - This will be calculated in px from the top left corner of the slide.
+    - style: Style of the element (width, height)
+        - This will be the width and height of the element in px (pixels) also the content of object wont be more than this width and height
+    - indentLevel: Indent level of the element
+- isDark: Whether the presentation is dark or light
+- templateUsed: ID of the template used. for now we can remote this property
+- submission_id: ID of the submission will be numeric id generated from db for each submission
+
+
+How to generate next presentaions?
+    1. We will have fix number of slides in each presentation and each slide has fixed size of width: 1280px, height: 720px
+    2. Typical pitch deck presentation contains 10 to 12 key sections, depending on the purpose and audience. Here’s a common structure:
+
+        Title Slide : Company name, tagline, and presenter information.
+        Problem Statement : The pain point your product/service solves.
+        Solution : How your company addresses the problem.
+        Market Opportunity : The size and potential of the target market.
+        Product/Service : Features, functionality, and uniqueness.
+        Business Model : How the company makes money.
+        Go-to-Market Strategy : How you plan to acquire customers.
+        Competitive Analysis : How you compare against competitors.
+        Traction & Milestones : Current progress, metrics, and achievements.
+        Financials : Revenue projections, costs, and key financial data.
+        Team : Key members and their expertise.
+        Contact Slide : How to reach the presenter or company.
+        Thank You Slide : Closing thoughts and contact information.
+        Feedback Slide : A slide to gather feedback from the audience.
+    
+    3. We will have a unique of templates, theme and designs for each slide type
+    4. It include  content, images, colors, fonts, shapes, background, layouts, styles, designs, logos, patterns, charts, graphs, tables, infographics, diagrams, and other visual elements.
+    5. This format of JSON object will be used to generate the presentation slides
+    6. Each slide will have different object field types like text, image, square, circle, line, etc.
+    7. Each field will have different properties like color, font, size, position, alignment using which we can generate the slide content.
+    8. Example : if we are looking for Title Slide for a specific company, we will have a template for that slide type with company name, tagline, and presenter information. Using our JSON type object we can generate the slide content. Same for rest all other slides.
+    
+    Understand the Flow:
+    - Users provide input (e.g., Company name, product details, domain-specific data).
+    - based on the input we will generate the JSON object for the presentation same as given json format above.
+    
+    Rules:[Important]
+    - We can not change the type of the element
+    - We can not change the class of the element
+    - ele_addr will be calculative as per type, slide number and element index for that slide.
+    - We can change the indentLevel of the element to arrange element visually up and down in the slide.
+    - We can change the html content of the element to show the attractive content on the slide.
+    - We can change the position of the element to place it on the slide. all positions will be calculated from the top left corner of the slide. and total of 1280px width and 720px height. so horizontal position will be from 0 to 1280 and vertical position will be from 0 to 720.
+             if element's position is:
+             "position": {
+                "top": "274.99993760529105px",
+                "left": "44.99996256317464px"
+            } 
+            - Than it will be placed at 44.99996256317464px from left and 274.99993760529105px from top. and based on its width and height from slide, top and left would be calculated.
+            - if width is 100px and height is 50px than top will be 274.99993760529105px + 50px = 324.99993760529105px and left will be 44.99996256317464px + 100px = 144.99996256317464px total should not exceed 1280px and 720px.
+    - We can change the style of the element to change its width and height to make it more elegant and attractive.
+    - We can change the shapeStyle of the element to change its color, border, opacity, etc.
+    - We can change the shapeProp of the element to change its gradient, fill, stroke, etc.

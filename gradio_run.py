@@ -45,7 +45,20 @@ def extract_text_and_tables(pdf_path):
             text = page.extract_text() or ""
             full_text += text + "\n"
 
-    # Extract tables using Camelot
+            # ✅ Extract JSON objects
+            json_matches = re.findall(r'\{[\s\S]*?\}', text)  # Detect JSON blocks
+            for match in json_matches:
+                try:
+                    json_obj = json.loads(match)  # Validate JSON
+                    json_objects.append(json.dumps(json_obj, indent=4))  # Store formatted JSON
+                except json.JSONDecodeError:
+                    pass  # Ignore invalid JSON
+
+            # ✅ Extract Code Blocks (Markdown-style ` ``` ` or indented code)
+            code_matches = re.findall(r'```[\s\S]+?```|(?:\n\s{4,}.*)+', text)
+            code_blocks.extend(code_matches)
+
+    # ✅ Extract tables using Camelot
     try:
         extracted_tables = camelot.read_pdf(
             pdf_path, pages="all", flavor="stream", strip_text="\n", edge_tol=500
@@ -56,10 +69,10 @@ def extract_text_and_tables(pdf_path):
         print(f"⚠️ Error extracting tables: {e}")
 
     return (
-        full_text or "",  # Text content
-        "\n\n".join(tables) or "",  # Tables
-        "\n\n".join(json_objects) or "",  # JSON data
-        "\n\n".join(code_blocks) or "",  # Code blocks
+        full_text or "",  # Extracted text content
+        "\n\n".join(tables) or "",  # Extracted tables
+        "\n\n".join(json_objects) or "",  # Extracted JSON data
+        "\n\n".join(code_blocks) or "",  # Extracted code blocks
     )
 
 
@@ -70,6 +83,12 @@ def process_pdf(pdf_path):
 
     # Extract text and tables
     text, table_data, json_data, code_data = extract_text_and_tables(pdf_path)
+
+    print("📄 Extracted Text:\n", text)
+    print("\n📊 Extracted Tables:\n", table_data)
+    print("\n📜 Extracted JSON Data:\n", json_data)
+    print("\n💻 Extracted Code Blocks:\n", code_data)
+    
     full_content = f"{text}\n\nTables:\n{table_data}\n\nJSON Data:\n{json_data}\n\nCode:\n{code_data}"
 
     # Create document chunks
@@ -150,8 +169,34 @@ def combine_docs(docs):
 
 def query_deepseek_r1(question, context):
     """Pass user query and context to DeepSeek-R1"""
-    formatted_prompt = f"Answer the following question based on the provided context:\n\nQuestion: {question}\n\nContext: {context}\n\nPlease provide a detailed answer."
 
+
+    
+    
+    prompt_style = f"""Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request. Before answering, think carefully about the question and create a step-by-step chain of thoughts to ensure a logical and accurate response.
+
+        ### Instruction:
+        You are a highly skilled, creative, and experienced presentation designer with many years of expertise, specializing in creating visually captivating slides. You have helped startups secure investments and have been part of the journey toward achieving 'Unicorn' status.
+        Your Task which is to generate a JSON code. The final JSON object (or an array containing a single slide in the slides array) must be valid, error-free, and formatted exactly as required for direct conversion to HTML. It must include updated styling, positions. If you need any clarification on specific code snippets or instructions, please ask.
+        Re-validate the layout of the slide, if the design of a slide could be better which can lead to more user satisfaction then go for it. When you have the best possible JSON code, only then return it to the user.
+
+        Please generate a json object as per given instruction in context. 
+
+        ### Question:
+        {question}
+
+        \n\n
+        Context: {context}\n\n please generate json and give me output.
+        \n\n
+
+        ### Response:
+        # """.strip()
+
+    question = f"{prompt_style}\n\n{question}"
+    
+    # formatted_prompt = f"Answer the following question based on the provided context:\n\nQuestion: {question}\n\nContext: {context}\n\nPlease provide a detailed answer."
+    formatted_prompt = f"Generate a like a sample json object only for given topic and based on the provided context:\n\Topic: {question}\n\nContext: {context}."
+    
     response = ollama.chat(
         model="deepseek-r1",
         messages=[{"role": "user", "content": formatted_prompt}],
@@ -168,9 +213,10 @@ def query_deepseek_r1(question, context):
 def rag_pipeline(user_query, pdf_path, max_chunks=5):
     """Optimized RAG pipeline: Retrieve, clean, and generate a response."""
     _, _, retriever = load_existing_vectorstore(pdf_path)
+    
+    user_query = f"""check how web based application works and check all formats and rules and regulation for set of fields for slides. {user_query}"""
     relevant_docs = retriever.invoke(user_query)  
     
-    print(f"✅ relavent docs : {relevant_docs}")
     
     if not relevant_docs:
         return "No relevant information found in the database."
@@ -192,7 +238,7 @@ def rag_pipeline(user_query, pdf_path, max_chunks=5):
 
 def chat_with_rag(user_input):
     """Chatbot UI interaction"""
-    return rag_pipeline(user_input, "./pdfs/test.pdf")
+    return rag_pipeline(user_input, "./pdfs/sample_ppt_instructions.pdf")
 
 
 # 🌟 **ASYNC Gradio UI for Faster Responses**

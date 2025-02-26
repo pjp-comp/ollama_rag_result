@@ -27,6 +27,9 @@ Next step: Fine-Tuning :LORA(Low-Rank Adaptation) / QLoRA (Quantized LORA)
             Step 2: Fine-tune the model
             Step 3: Save & package it into an Ollama modelfile
             Step 4: Run the model inside Ollama
+            
+            ex : https://towardsdatascience.com/fine-tuning-large-language-models-llms-23473d763b91/?sk=fd31e7444cf8f3070d9a843a8218ddad
+                https://www.youtube.com/watch?v=eC6Hd1hFvos
 
 Need to read:
 - https://www.datacamp.com/tutorial/fine-tuning-deepseek-r1-reasoning-model
@@ -39,6 +42,7 @@ Steps Done :
 1.Local storage done using chromadb
 2.used local storage as context in model.
 3.used RAG pipeline
+
 
 
 
