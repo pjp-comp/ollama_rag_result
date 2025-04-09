@@ -14,6 +14,7 @@ Step 4: Querying DeepSeek-R1 using Ollama
 
 Step 5: The RAG pipeline
     - returning the most relevant document excerpts. These excerpts are formatted into a structured input using combine_docs function and sent to ollama_llm, ensuring that DeepSeek-R1 generates well-informed answers based on the retrieved content.
+    https://github.com/daveebbelaar/ai-cookbook/tree/main/knowledge/docling
 
 Step 6: Creating the Gradio Interface
 
@@ -53,3 +54,48 @@ Technical documents (code, JSON, structured data)	600-800	                    15
 Short FAQ-style content	                            300-400	                    100
 Legal/Medical docs (longer, structured)	            1000	                    200-300
 Since your documents contain JSON, code, tables, and text, a balanced setting would be:
+
+
+
+Read extra : 
+for image Analysis : https://www.datacamp.com/tutorial/deepseek-r1-project
+
+
+------------
+
+Our Requirements : 
+We need multiple chatbot sessions per clients.
+
+
+1. Tried LLM chat platforms directly by providing instructions what we need but there are limitions of token and trained data.
+2. So think to provide addition context to LLM using RAG 
+
+
+
+PDF processing and question-answering system using LangChain and FAISS vector storage. Here's a brief overview:
+
+Key Components:
+1. PDF Processing: Extracts text, tables, JSON data, and code blocks from PDFs using pdfplumber and camelot(nice to read unstructured tables) library
+2. Vector Storage: Uses FAISS for efficient similarity search of document chunks
+3. Embeddings: Leverages Ollama's deepseek-r1 model for generating embeddings
+4. Caching: Implements caching of processed PDFs to avoid redundant retrival processes
+
+Initially Local storage done using chromadb
+Chromadb: A high-performance vector database designed for efficient similarity searches and storage of embeddings.
+
+2.used local storage as context in model.
+3.used RAG pipeline
+
+FAISS stores and retrieves relevant text efficiently using embeddings.
+Instead of parsing the PDF every time, it fetches similar chunks instantly
+This allows your RAG pipeline to retrieve the most relevant context before generating an answer.
+
+Why Not Just Use a Database?
+- It understands meaning, not just keywords
+- Faster retrieval compared to traditional SQL
+- Scales well for large documents and multiple PDFs
+
+Gradio frontend : processing and question answering
+
+Tried to use mix and match LLM providers (Huggingface, Ollama).
+
